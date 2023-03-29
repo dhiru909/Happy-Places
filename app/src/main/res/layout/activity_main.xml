@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".activities.MainActivity">
+    <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/toolbarAddPlace"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/CustomToolbarStyle">
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHappyPlacesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="?attr/actionBarSize"
+        tools:visibility="gone">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <TextView android:id="@+id/tvNoRecordsAvailable" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:text="@string/note_text_no_happy_places_found_yet_kindly_add_one" android:textSize="@dimen/no_records_available_text_size" android:visibility="visible" tools:visibility="visible" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddHappyPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_action_add_24dp" />
+
+</FrameLayout>
