@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/colorPrimary"
             android:padding="@dimen/item_happy_places_content_padding">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivPlaceImage"
@@ -39,9 +40,9 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text_color"
+                    android:textColor="@color/item_happy_place_description_text_color"
                     android:textSize="@dimen/item_happy_place_title_textSize"
-                    android:textStyle="bold" tools:text="Name" />
+                    android:textStyle="bold" tools:text="Name"   />
                 <TextView
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"

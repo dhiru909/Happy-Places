@@ -44,14 +44,31 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_HAPPY_PLACE")
         onCreate(db)
     }
+    fun updateHappyPlace(happyPlace: HappyPlaceModel): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(KEY_TITLE, happyPlace.title) // HappyPlaceModelClass TITLE
+        contentValues.put(KEY_IMAGE, happyPlace.image) // HappyPlaceModelClass IMAGE
+        contentValues.put(
+            KEY_DESCRIPTION,
+            happyPlace.description
+        ) // HappyPlaceModelClass DESCRIPTION
+        contentValues.put(KEY_DATE, happyPlace.date) // HappyPlaceModelClass DATE
+        contentValues.put(KEY_LOCATION, happyPlace.location) // HappyPlaceModelClass LOCATION
+        contentValues.put(KEY_LATITUDE, happyPlace.latitude) // HappyPlaceModelClass LATITUDE
+        contentValues.put(KEY_LONGITUDE, happyPlace.longitude) // HappyPlaceModelClass LONGITUDE
+        val id = happyPlace.id
+        val result = db.update(TABLE_HAPPY_PLACE, contentValues, "$KEY_ID = $id", null).toLong()
+        db.close()
+        return result
+    }
     fun addHappyPlace(happyPlace: HappyPlaceModel): Long {
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
         contentValues.put(KEY_TITLE, happyPlace.title) // HappyPlaceModelClass TITLE
         contentValues.put(KEY_IMAGE, happyPlace.image) // HappyPlaceModelClass IMAGE
-        contentValues.put(KEY_DESCRIPTION, happyPlace.description
-        ) // HappyPlaceModelClass DESCRIPTION
+        contentValues.put(KEY_DESCRIPTION, happyPlace.description) // HappyPlaceModelClass DESCRIPTION
         contentValues.put(KEY_DATE, happyPlace.date) // HappyPlaceModelClass DATE
         contentValues.put(KEY_LOCATION, happyPlace.location) // HappyPlaceModelClass LOCATION
         contentValues.put(KEY_LATITUDE, happyPlace.latitude) // HappyPlaceModelClass LATITUDE
@@ -92,5 +109,12 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,
             return ArrayList()
         }
         return happyPlaceList
+    }
+
+    fun deleteHappyPlace(item: HappyPlaceModel): Int {
+        val db = this.writableDatabase
+        val result = db.delete("HappyPlacesTable","_id = ${item.id}",null)
+        db.close()
+        return result
     }
 }

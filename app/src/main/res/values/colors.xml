@@ -11,10 +11,14 @@
     <color name="white">#F4EEFF</color>
     <color name="black">#222831</color>
 
-    <color name="primary_text_color">#212121</color>
+    <color name="primary_text_color">@color/black</color>
     <color name="secondary_text_color">#9AA2AF</color>
     <color name="white_color">#FFFFFF</color>
     <color name="button_background_color">@color/colorPrimaryDark</color>
     <color name="circular_image_border_color">@color/colorAccent</color>
     <color name="item_happy_place_description_text_color">@color/colorPrimaryDark</color>
+
+<!--    detail page-->
+    <color name="detail_screen_description_text_color">#757575</color>
+<!--    end-->
 </resources>

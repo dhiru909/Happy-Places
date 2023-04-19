@@ -40,13 +40,19 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 //    implementation 'androidx.databinding:compiler:3.2.0-alpha11'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'net.objecthunter:exp4j:0.4.8'
+
     debugImplementation 'im.dino:dbinspector:3.4.1@aar'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     //dexter
     implementation 'com.karumi:dexter:6.2.3'
+//    map api
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.1.0'
+
 }
