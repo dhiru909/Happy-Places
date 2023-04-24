@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/add_screen_til_marginTop"
+                app:layout_constraintBottom_toTopOf="@id/btn_current_location"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/til_date">
@@ -124,6 +125,17 @@
                     android:textSize="@dimen/edit_text_text_size" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/btn_current_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/get_current_location"
+                android:theme="@style/customTheme"
+                android:textSize="@dimen/add_screen_text_add_image_textSize"
+                app:layout_constraintBottom_toTopOf="@+id/iv_place_image"
+                app:layout_constraintTop_toBottomOf="@id/til_location"
+                android:background="@drawable/shape_button_rounded_bgwhite"
+                tools:layout_editor_absoluteX="16dp" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_place_image"
                 android:layout_width="@dimen/add_screen_place_image_size"
@@ -135,7 +147,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_location"
+                app:layout_constraintTop_toBottomOf="@+id/btn_current_location"
                 app:tint="@color/colorPrimary"
                 app:tintMode="multiply" />
 

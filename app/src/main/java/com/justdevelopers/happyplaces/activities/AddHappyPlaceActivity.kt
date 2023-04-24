@@ -10,6 +10,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,10 +20,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -59,6 +62,22 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
     }
     private var mHappyPlaceDetails: HappyPlaceModel? = null
 
+    private val askLocationPermission:ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+            permissions->
+            permissions.entries.forEach {
+                val permissionName = it.key
+                val isGranted = it.value
+                if(isGranted){
+
+                }else{
+                    if(permissionName== Manifest.permission.ACCESS_COARSE_LOCATION || permissionName==Manifest.permission.ACCESS_FINE_LOCATION){
+                        Toast.makeText(this@AddHappyPlaceActivity,"you denied for location, enable it in settings",Toast.LENGTH_LONG).show()
+                    }
+                    showRationalDialogForPermissions()
+                }
+            }
+    }
     private val openGalleryLauncher : ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
                 result->
@@ -130,7 +149,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
         binding?.tvAddImage?.setOnClickListener(this)
         binding?.btnSave?.setOnClickListener(this)
         binding?.etLocation?.setOnClickListener(this)
-
+        binding?.btnCurrentLocation?.setOnClickListener(this)
 
     }
 
@@ -138,7 +157,11 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
         finish()
 
     }
-
+    private fun isLocationEnabled():Boolean{
+        val locationManager:LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
     override fun onClick(v: View?) {
         when(v!!.id){
             R.id.et_date ->{
@@ -149,6 +172,20 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 dpd.datePicker.maxDate=(System.currentTimeMillis())
 //                86400000
                 dpd.show()
+            }
+            R.id.btn_current_location->{
+                if(isLocationEnabled())
+                    requestStoragePermission()
+                else{
+                    Toast.makeText(
+                        this@AddHappyPlaceActivity,
+                        "Turn on Location",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+
+                }
             }
             R.id.tvAddImage ->{
                 val pictureDialog = AlertDialog.Builder(this@AddHappyPlaceActivity)
@@ -192,7 +229,7 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 try {
                     val fields=listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG,
                     Place.Field.ADDRESS)
-                    val intent= Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY ,fields)
+                    val intent= Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN ,fields)
                         .build(this@AddHappyPlaceActivity)
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE)
                 }catch (e:Exception) {
@@ -284,7 +321,15 @@ class AddHappyPlaceActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }).onSameThread().check()
     }
-
+    private fun requestStoragePermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(
+                this,Manifest.permission.READ_EXTERNAL_STORAGE)
+        ){
+            showRationalDialogForPermissions()
+        }else{
+            askLocationPermission.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+        }
+    }
     private fun showRationalDialogForPermissions() {
         AlertDialog.Builder(this).setMessage("Permissions required, Enable them in setting")
             .setPositiveButton("go to settings"){
